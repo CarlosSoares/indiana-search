@@ -1,0 +1,20 @@
+db:
+  image: postgres
+  env_file: docker/docker-db-env
+  ports:
+    - "5432:5432"
+elasticsearch:
+  image: elasticsearch
+  ports:
+    - "9200:9200"
+web:
+  build: .
+  command: bundle exec rails server -b '0.0.0.0'
+  env_file: docker/docker-web-env
+  volumes:
+    - .:/indiana-search
+  ports:
+    - "3000:3000"
+  links:
+    - db:development_db
+    - elasticsearch:elasticsearch
