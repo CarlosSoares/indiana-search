@@ -14,7 +14,6 @@ class BaseApiController < ApplicationController
   def authenticate_user_from_token!
     token = request.authorization.split(' ')[1]
     user_token = token.present?
-    puts User.find_by_authentication_token(token)
     user       = user_token && User.find_by_authentication_token(token)
 
     if user
