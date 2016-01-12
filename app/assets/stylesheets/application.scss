@@ -39,6 +39,11 @@ body {
     background-color: $gray-lightest;
 }
 
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
 // Wrappers
 
 #wrapper {
