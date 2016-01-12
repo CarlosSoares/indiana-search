@@ -28,6 +28,8 @@ gem 'devise'
 
 gem 'acts_as_tenant'
 
+# Front end Assets
+gem "bower-rails", "~> 0.10.0"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
