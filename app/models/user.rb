@@ -4,10 +4,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-   # You likely have this before callback set up for the token.
-   before_save :ensure_authentication_token
+  belongs_to :company
 
-   belongs_to :campany
+  # You likely have this before callback set up for the token.
+  before_save :ensure_authentication_token
+
 
    def ensure_authentication_token
      if authentication_token.blank?

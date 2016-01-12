@@ -1,6 +1,5 @@
-<h1>Editing Project</h1>
+<%= content_for(:title) { "Editing Project" } %>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @project %> |
-<%= link_to 'Back', projects_path %>
+<div class="panel panel-default">
+  <%= render 'form' %>
+</div>
