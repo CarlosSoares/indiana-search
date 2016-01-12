@@ -14,7 +14,7 @@
 
 //= require bootstrap/dist/js/bootstrap.min.js
 //= require datatables/media/js/dataTables.bootstrap.min.js
-
+//= require remarkable-bootstrap-notify/dist/bootstrap-notify.min.js
 // require morris-data
 // require flot-data
 //= require jquery_ujs

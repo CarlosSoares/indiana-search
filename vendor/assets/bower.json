@@ -11,6 +11,7 @@
     "morrisjs": "latest",
     "datatables-responsive": "latest",
     "bootstrap-social": "latest",
-    "flot.tooltip": "latest"
+    "flot.tooltip": "latest",
+    "remarkable-bootstrap-notify": "latest"
   }
 }
