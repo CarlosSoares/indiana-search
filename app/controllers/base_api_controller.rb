@@ -1,5 +1,8 @@
 class BaseApiController < ApplicationController
+  skip_action :authenticate_user!
+
   before_filter :authenticate_user_from_token!
+
 
   protected
 
