@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
    # You likely have this before callback set up for the token.
    before_save :ensure_authentication_token
 
-   belongs_to :campany
+   belongs_to :company
 
    def ensure_authentication_token
      if authentication_token.blank?

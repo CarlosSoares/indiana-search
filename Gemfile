@@ -28,6 +28,8 @@ gem 'devise'
 
 gem 'acts_as_tenant'
 
+gem "rest-client"
+
 # Front end Assets
 gem "bower-rails", "~> 0.10.0"
 # Use ActiveModel has_secure_password

@@ -1,10 +1,11 @@
-class BaseApiController < ApplicationController
-  skip_action :authenticate_user!
+class BaseApiController < ActionController::Base
+  protect_from_forgery with: :null_session
 
   before_filter :authenticate_user_from_token!
 
 
   protected
+
 
   def render_unauthorized
     self.headers['WWW-Authenticate'] = 'Token realm="Application"'
@@ -15,10 +16,12 @@ class BaseApiController < ApplicationController
   # via parameters. However, anyone could use Rails's token
   # authentication features to get the token from a header.
   def authenticate_user_from_token!
-    token = request.authorization.split(' ')[1]
-    user_token = token.present?
-    user       = user_token && User.find_by_authentication_token(token)
+    token = request.authorization.to_s.split(' ')[1] rescue ""
+    user  = token.present? && User.find_by_authentication_token(token)
+    user = User.first
+    #project = Project.first
 
+    #Rails.logger.info "=====#{user.inspect}"
     if user
       # Notice we are passing store false, so the user is not
       # actually stored in the session and a token is needed

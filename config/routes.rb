@@ -11,8 +11,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
 
-      scope ":table_name" do
-        resources :indices
+      scope ':table_name' do
+        get 'search/:field/:query', to: 'search#index'
+        post '/search', to: 'search#create'
+        put '/search/:id', to: 'search#update'
+        delete '/search/:id', to: 'search#destroy'
       end
 
     end

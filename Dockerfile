@@ -1,5 +1,5 @@
 FROM ruby:2.2.1
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libevent-dev memcached
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libevent-dev
 
 RUN mkdir /indiana-search
 WORKDIR /indiana-search
