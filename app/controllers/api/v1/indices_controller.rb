@@ -1,4 +1,4 @@
-class Api::V1::IndicesController < ApplicationController
+class Api::V1::IndicesController < BaseApiController
   before_action :set_api_v1_index, only: [:show, :edit, :update, :destroy]
 
   # GET /api/v1/indices
