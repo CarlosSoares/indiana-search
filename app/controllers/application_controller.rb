@@ -5,10 +5,4 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
 
-  set_current_tenant_through_filter
-
-  def set_company_tenancy
-    ActsAsTenant.current_tenant = current_user.company
-  end
-
 end

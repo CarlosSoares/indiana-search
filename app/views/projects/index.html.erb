@@ -13,6 +13,7 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla risus mi, dictum non ornare eget, tincidunt quis sem. Integer rutrum odio in placerat imperdiet. Maecenas porta sem augue, id ultricies purus ultrices laoreet. Aenean mattis sollicitudin eros, sit amet finibus elit rutrum vel.
       </div>
       <div class="panel-footer">
+        <%= link_to 'Consumers', project_consumers_path(project), class: "btn btn-success" %>
         <%= link_to 'Show', project, class: "btn btn-default" %>
         <%= link_to 'Edit', edit_project_path(project), class: "btn btn-default" %>
         <%= link_to 'Destroy', project, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>

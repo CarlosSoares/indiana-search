@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = current_user.projects.all
   end
 
   # GET /projects/1
@@ -26,6 +26,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     @project.company_id = current_user.company_id
+
 
     if @project.save
       redirect_to projects_path, notice: 'Project was successfully created.'

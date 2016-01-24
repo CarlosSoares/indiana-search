@@ -1,36 +1,47 @@
-class ElasticSearch
-  URL = "http://#{ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_ADDR']}:#{ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_PORT']}"
+require 'elasticsearch'
 
+class ElasticSearchApi
 
   class << self
 
+    def client
+      @client ||= Elasticsearch::Client.new(host: ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_ADDR'], port: ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_PORT'])
+    end
+
     def search(namespace, resource_type, field, query)
-      response = RestClient.post(URL + "/#{namespace}/#{resource_type}/_search", {
-        "query": {
-          "match": {
-            "#{field}": {
-              "query": query,
-              "fuzziness": 5
+      client = Elasticsearch::Client.new log: true
+
+      ElasticSearchApi.client.search index: resource_type, type: namespace, body: {
+        "query"=> {
+          "match"=> {
+            "#{field}" => {
+              "query"=> query,
+              "operator"=> "or",
+              "type"=> "phrase_prefix"
+            },
+            "#{field}"=> {
+              "query"=> query,
+              "fuzziness"=> 10,
+              "operator"=> "or"
             }
           }
         }
-      }.to_json, content_type: "text/plain")
-
-      to_response(response.body)
-    rescue RestClient::Exception => ex
+      }.to_json
+    rescue Exception => ex
       {
         success: false,
-        message: ex.response
+        message: ex
       }
     end
 
     ##
     # Allow create a single index
     ##
-    def create_index(namespace, resource_type, data = {})
-      response = RestClient.post(URL + "/#{namespace}/#{resource_type}/#{data[:id]}", data.to_json, content_type: "text/plain")
-      JSON.parse response.body
-    rescue RestClient::BadRequest => ex
+    def create_index(namespace, resource_type, data )
+      Rails.logger.info [namespace, resource_type, data, data['id']].inspect
+
+      ElasticSearchApi.client.index  index: resource_type, type: namespace, id: data['id'], body: data
+    rescue Exception => ex
       ex
     end
 

@@ -1,8 +1,10 @@
 class Project < ActiveRecord::Base
-  acts_as_tenant(:company)
 
-  validates_uniqueness_of :name
+  validates :name, uniqueness: {scope: :company_id, allow_blank: false}
   after_create :set_namespace
+
+  belongs_to :company
+  has_many :consumers
 
   private
 

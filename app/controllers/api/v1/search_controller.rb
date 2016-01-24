@@ -2,8 +2,10 @@ class Api::V1::SearchController < BaseApiController
   before_action :set_namespace
 
   # GET /api/v1/search
+  # GET /api/v1/:table_name/search/:field/:query
   def index
-    render json: ElasticSearch.search(@namespace, params[:table_name], params[:field], params[:query])
+    @consumer.track_search(params)
+    render json: ElasticSearchApi.search(@namespace, params[:table_name], params[:field], params[:query])
   end
 
   # GET /api/v1/search/1
@@ -23,10 +25,9 @@ class Api::V1::SearchController < BaseApiController
   # POST /api/v1/search.json
   def create
     body = params[:body]
-
     method = body.is_a?(Array) ? "create_multiple_index" : "create_index"
 
-    render json: ElasticSearch.send(method, @namespace, params[:table_name], body)
+    render json: ElasticSearchApi.send(method, @namespace, params[:table_name], body)
   end
 
   # PATCH/PUT /api/v1/search/1
@@ -49,7 +50,7 @@ class Api::V1::SearchController < BaseApiController
   private
 
   def set_namespace
-    @namespace = Project.first.namespace
+    @namespace = @consumer.project.namespace
   end
 
 end

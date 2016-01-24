@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   # You likely have this before callback set up for the token.
   before_save :ensure_authentication_token
 
+  has_many :projects, through: :company
+  accepts_nested_attributes_for :company
+
    def ensure_authentication_token
      if authentication_token.blank?
        self.authentication_token = generate_authentication_token

@@ -34,7 +34,7 @@ gem "rest-client"
 gem "bower-rails", "~> 0.10.0"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'elasticsearch'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -44,6 +44,7 @@ gem "bower-rails", "~> 0.10.0"
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'byebug'
+  gem "capistrano", "~> 3.4"
 end
 
 group :test do
