@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {registrations: "users/registrations"}
-  root to: "projects#index"
+  devise_for :users, controllers: {registrations: 'users/registrations'}
+  root to: 'projects#index'
 
   resources :projects do
     resources :consumers
   end
+  resources :searches, only: [:index]
 
   namespace :api do
     namespace :v1 do

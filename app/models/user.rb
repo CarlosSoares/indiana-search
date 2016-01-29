@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token
 
   has_many :projects, through: :company
+  has_many :consumers, through: :projects
+  has_many :searches, through: :projects
+
   accepts_nested_attributes_for :company
 
    def ensure_authentication_token

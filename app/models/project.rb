@@ -5,6 +5,7 @@ class Project < ActiveRecord::Base
 
   belongs_to :company
   has_many :consumers
+  has_many :searches, through: :consumers
 
   private
 
