@@ -30,6 +30,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'byebug'
   gem 'shoulda-matchers'
+  gem 'simplecov', require: false
 end
 
 group :development do

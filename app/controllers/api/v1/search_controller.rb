@@ -1,56 +1,22 @@
-class Api::V1::SearchController < BaseApiController
-  before_action :set_namespace
+module Api
+  module V1
+    # Allow search on the api
+    class SearchController < BaseApiController
+      before_action :set_namespace
 
-  # GET /api/v1/search
-  # GET /api/v1/:table_name/search/:field/:query
-  def index
-    @consumer.track_search(params)
-    render json: ElasticSearchApi.search(@namespace, params[:table_name], params[:field], params[:query])
-  end
+      # GET /api/v1/search
+      # GET /api/v1/:table_name/search/:field/:query
+      def index
+        @consumer.track_search(params)
+        render json: ElasticSearchApi.search(@namespace, params[:table_name],
+                                             params[:field], params[:query])
+      end
 
-  # GET /api/v1/search/1
-  def show
-  end
+      private
 
-  # GET /api/v1/search/new
-  def new
-
-  end
-
-  # GET /api/v1/search/1/edit
-  def edit
-  end
-
-  # POST /api/v1/search
-  # POST /api/v1/search.json
-  def create
-    body = params[:body]
-    method = body.is_a?(Array) ? "create_multiple_index" : "create_index"
-
-    render json: ElasticSearchApi.send(method, @namespace, params[:table_name], body)
-  end
-
-  # PATCH/PUT /api/v1/search/1
-  # PATCH/PUT /api/v1/search/1.json
-  def update
-    if @api_v1_index.update(api_v1_index_params)
-      render :show, status: :ok, location: @api_v1_index
-    else
-      render json: @api_v1_index.errors, status: :unprocessable_entity
+      def set_namespace
+        @namespace = @consumer.project.namespace
+      end
     end
   end
-
-  # DELETE /api/v1/search/1
-  # DELETE /api/v1/search/1.json
-  def destroy
-    @api_v1_index.destroy
-    head :no_content
-  end
-
-  private
-
-  def set_namespace
-    @namespace = @consumer.project.namespace
-  end
-
 end

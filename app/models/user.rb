@@ -1,3 +1,4 @@
+# User ActiveRecord
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -11,22 +12,20 @@ class User < ActiveRecord::Base
 
   has_many :projects, through: :company
   has_many :consumers, through: :projects
-  has_many :searches, through: :projects
+  has_many :searches, through: :consumers
 
   accepts_nested_attributes_for :company
 
-   def ensure_authentication_token
-     if authentication_token.blank?
-       self.authentication_token = generate_authentication_token
-     end
-   end
+  def ensure_authentication_token
+    self.authentication_token = generate_authentication_token if authentication_token.blank?
+  end
 
-   private
+  private
 
-   def generate_authentication_token
-     loop do
-       token = Devise.friendly_token
-       break token unless User.where(authentication_token: token).first
-     end
-   end
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.find_by(authentication_token: token)
+    end
+  end
 end

@@ -1,6 +1,6 @@
+# Project ActiveRecord
 class Project < ActiveRecord::Base
-
-  validates :name, uniqueness: {scope: :company_id, allow_blank: false}
+  validates :name, presence: true, uniqueness: { scope: :company_id, allow_blank: false }
   after_create :set_namespace
 
   belongs_to :company

@@ -14,7 +14,7 @@ development:
   database: development_search
   username: postgres
   password: postgres
-  host: development_db
+  host: localhost
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -24,4 +24,4 @@ test:
   database: test_search
   username: postgres
   password: postgres
-  host: development_db
+  host: localhost
