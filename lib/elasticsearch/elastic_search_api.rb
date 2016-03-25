@@ -11,7 +11,7 @@ class ElasticSearchApi
     def search(namespace, resource_type, field, query)
       # client = Elasticsearch::Client.new log: true
 
-      ElasticSearchApi.client.search index: resource_type, type: namespace, body: {
+      response = ElasticSearchApi.client.search index: resource_type, type: namespace, body: {
         'query' => {
           'match' => {
             field.to_s => {
@@ -27,6 +27,7 @@ class ElasticSearchApi
           }
         }
       }.to_json
+      to_response(response)
     rescue StandardError => ex
       { success: false, message: ex }
     end
@@ -67,7 +68,6 @@ class ElasticSearchApi
     # Prepare the response from the search result
     ##
     def to_response(body)
-      body = JSON.parse(body)
 
       # Success response
       if body['hits'].present?

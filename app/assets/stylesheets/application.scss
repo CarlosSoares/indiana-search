@@ -11,13 +11,10 @@
  * file per style scope.
  *
  *= require bootstrap
- *= require font-awesome
-
  *= require_tree .
  *= require_self
  */
 /* Variables */
-@import "font-awesome";
 
 $gray-darker: lighten(#000, 13.5%);
 $gray-dark: lighten(#000, 20%);

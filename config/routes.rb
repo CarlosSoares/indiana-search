@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
-  root to: 'projects#index'
+  root to: 'dashboard#index'
 
   resources :searches, only: [:index]
 
