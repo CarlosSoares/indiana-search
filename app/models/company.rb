@@ -1,9 +1,7 @@
+# Company ActiveRecord
 class Company < ActiveRecord::Base
-
-  validates_uniqueness_of :name
-  validates_presence_of :name
+  validates :name, presence: true, uniqueness: true
 
   has_many :users
   has_many :projects
-
 end

@@ -1,47 +1,44 @@
 require 'elasticsearch'
 
+# Allows search using elasticsearch
 class ElasticSearchApi
-
   class << self
-
     def client
-      @client ||= Elasticsearch::Client.new(host: ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_ADDR'], port: ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_PORT'])
+      @client ||= Elasticsearch::Client.new(host: ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_ADDR'],
+                                            port: ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_PORT'])
     end
 
     def search(namespace, resource_type, field, query)
-      client = Elasticsearch::Client.new log: true
+      # client = Elasticsearch::Client.new log: true
 
       ElasticSearchApi.client.search index: resource_type, type: namespace, body: {
-        "query"=> {
-          "match"=> {
-            "#{field}" => {
-              "query"=> query,
-              "operator"=> "or",
-              "type"=> "phrase_prefix"
+        'query' => {
+          'match' => {
+            field.to_s => {
+              'query' => query,
+              'operator' => 'or',
+              'type' => 'phrase_prefix'
             },
-            "#{field}"=> {
-              "query"=> query,
-              "fuzziness"=> 10,
-              "operator"=> "or"
+            field.to_s => {
+              'query' => query,
+              'fuzziness' => 10,
+              'operator' => 'or'
             }
           }
         }
       }.to_json
-    rescue Exception => ex
-      {
-        success: false,
-        message: ex
-      }
+    rescue StandardError => ex
+      { success: false, message: ex }
     end
 
     ##
     # Allow create a single index
     ##
-    def create_index(namespace, resource_type, data )
+    def create_index(namespace, resource_type, data)
       Rails.logger.info [namespace, resource_type, data, data['id']].inspect
 
-      ElasticSearchApi.client.index  index: resource_type, type: namespace, id: data['id'], body: data
-    rescue Exception => ex
+      ElasticSearchApi.client.index index: resource_type, type: namespace, id: data['id'], body: data
+    rescue StandardError => ex
       ex
     end
 
@@ -60,11 +57,10 @@ class ElasticSearchApi
     def build_index(namespace, resource_type, indexex = [])
       data = []
       indexex.each do |index|
-        data << "{ \"create\" : {\"_index\":\"#{namespace}\",\"_type\":\"#{resource_type}\",\"_id\":\"#{index[:id]}\"} }"
+        data << { create: { _index: namespace, _type: resource_type, _id: index[:id] } }.to_json
         data << index.to_json
       end
-      puts data.join("\n")
-      data.join("\n")
+      data.join('\n')
     end
 
     ##
@@ -74,18 +70,11 @@ class ElasticSearchApi
       body = JSON.parse(body)
 
       # Success response
-      if body["hits"].present?
-        data = body["hits"]
-
-        {
-          success: true,
-          total: data["total"],
-          results: to_results(data["hits"])
-        }
+      if body['hits'].present?
+        data = body['hits']
+        { success: true, total: data['total'], results: to_results(data['hits']) }
       else # Error response
-        {
-          success: false
-        }
+        { success: false }
       end
     end
 
@@ -96,7 +85,5 @@ class ElasticSearchApi
         }.merge(result['_source']).symbolize_keys
       end
     end
-
   end
-
 end

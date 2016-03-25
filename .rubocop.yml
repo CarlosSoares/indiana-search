@@ -1,0 +1,14 @@
+Rails:
+  Enabled: true
+Metrics/LineLength:
+  Max: 120
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'spec/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'docs/**/*'
