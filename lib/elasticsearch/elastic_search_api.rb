@@ -17,38 +17,31 @@ class ElasticSearchApi
             field.to_s => {
               'query' => query,
               'operator' => 'or',
-              'type' => 'phrase_prefix'
-            },
-            field.to_s => {
-              'query' => query,
               'fuzziness' => 10,
-              'operator' => 'or'
+              'type' => 'phrase_prefix'
             }
           }
         }
-      }.to_json
+      }
       to_response(response)
     rescue StandardError => ex
       { success: false, message: ex }
     end
 
     ##
-    # Allow create a single index
+    # Allow create a single or mutliple indexes
     ##
     def create_index(namespace, resource_type, data)
-      Rails.logger.info [namespace, resource_type, data, data['id']].inspect
+      Rails.logger.info [namespace, resource_type, data].inspect
 
-      ElasticSearchApi.client.index index: resource_type, type: namespace, id: data['id'], body: data
+      if data.is_a?(Array)
+        ElasticSearchApi.client.bulk body: build_index(namespace, resource_type, data)
+      else
+        ElasticSearchApi.client.index index: resource_type, type: namespace, id: data['id'], body: data
+      end
     rescue StandardError => ex
-      ex
-    end
+      byebug
 
-    ##
-    # Allow create a multiple index
-    ##
-    def create_multiple_index(namespace, resource_type, data = [])
-      RestClient.post(URL + "/#{namespace}/#{resource_type}/_bulk", build_index(namespace, resource_type, data))
-    rescue RestClient::BadRequest => ex
       ex
     end
 
@@ -58,10 +51,10 @@ class ElasticSearchApi
     def build_index(namespace, resource_type, indexex = [])
       data = []
       indexex.each do |index|
-        data << { create: { _index: namespace, _type: resource_type, _id: index[:id] } }.to_json
-        data << index.to_json
+        data << { create: { _index: namespace, _type: resource_type, _id: index[:id] } }
+        data << index
       end
-      data.join('\n')
+      data
     end
 
     ##

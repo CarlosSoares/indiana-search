@@ -13,9 +13,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       scope ':table_name' do
         get 'search/:field/:query', to: 'search#index'
-        post '/search', to: 'search#create'
-        put '/search/:id', to: 'search#update'
-        delete '/search/:id', to: 'search#destroy'
+        resources :index, only: [:create, :update, :destroy]
       end
     end
   end
