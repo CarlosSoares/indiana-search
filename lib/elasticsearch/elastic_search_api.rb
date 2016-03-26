@@ -37,7 +37,7 @@ class ElasticSearchApi
       if data.is_a?(Array)
         ElasticSearchApi.client.bulk body: build_index(namespace, resource_type, data)
       else
-        ElasticSearchApi.client.index index: resource_type, type: namespace, id: data['id'], body: data
+        ElasticSearchApi.client.index index: namespace, _type: resource_type , id: data['id'], body: data
       end
     rescue StandardError => ex
       byebug

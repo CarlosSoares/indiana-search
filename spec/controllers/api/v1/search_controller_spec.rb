@@ -8,7 +8,7 @@ RSpec.describe Api::V1::SearchController, type: :controller do
   describe 'GET #index' do
     context 'with right token' do
       before(:each) do
-        request.headers['Authorization'] = "Token #{consumer.token}"
+        request.headers['Authorization'] = "Bearer #{consumer.token}"
       end
 
       it 'does render consumers' do
