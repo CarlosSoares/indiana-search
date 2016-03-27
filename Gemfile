@@ -22,6 +22,8 @@ gem 'rest-client'
 
 gem 'elasticsearch'
 
+gem 'rails_12factor', group: :production
+
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'byebug'
