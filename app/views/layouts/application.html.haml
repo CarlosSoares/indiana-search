@@ -1,0 +1,25 @@
+!!!
+%html{lang: 'pt'}
+
+  %head
+    %title>IndianaSearch
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    %link{rel: "stylesheet", href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"}
+    %link{rel: "stylesheet", href: "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"}
+    %link{rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"}
+  %body{class: !current_user ? 'app body-full' : ''}
+    - if current_user
+      = render partial: 'shared/header'
+    %div.main-container.clearfix.nav-expand
+      - if current_user
+        = render partial: 'shared/sidebar'
+      .content-container.fixedHeader#content
+        - if current_user
+          .breadcrumb.breadcrumb-small
+            = yield :breadcrumb
+        .page{class: "#{controller.controller_name}"}
+          .page-wrap
+            = yield
+

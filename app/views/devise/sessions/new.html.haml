@@ -1,0 +1,28 @@
+.auth-container
+  .form-head.mb20
+    %h1.site-logo.h2.mb5.mt5.text-center.text-uppercase.text-bold
+      IndianaSearch
+
+  .form-container
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      - if alert
+        .small.text-pink.text-center=alert
+      %md-input-container.md-default-theme.md-input-has-value
+        = f.label :email
+        = f.email_field :email, autofocus: true, class: 'md-input'
+      %md-input-container.md-default-theme.md-input-has-value
+        = f.label :password
+        = f.password_field :password, autocomplete: 'off', class: 'md-input'
+
+      .clearfix
+        .ui-checkbox.ui-checkbox-primary.right
+          = f.label :remember_me do
+            = f.check_box :remember_me
+            %span> Relembrar
+
+      .clearfix.mb15
+        = render "devise/shared/links"
+
+      .btn-group.btn-group-justified.mb15
+        .btn-group
+          %button{type:"submit", class: 'btn btn-success'}> Log in

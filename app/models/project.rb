@@ -7,6 +7,10 @@ class Project < ActiveRecord::Base
   has_many :consumers
   has_many :searches, through: :consumers
 
+  def project_data_info
+    @project_data_info ||= ElasticSearchApi.info(namespace)
+  end
+
   private
 
   def set_namespace

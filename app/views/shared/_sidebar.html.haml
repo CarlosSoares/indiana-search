@@ -1,0 +1,21 @@
+%aside.nav-wrap.ps-container.nav-offcanvas.ps-active-y#site-nav
+  .nav-head
+    = link_to root_path, class: 'site-logo text-uppercase' do
+      %i.ion.ion-disc
+      %span.text> IndianaSearch
+  .site-nav.clearfix
+    .profile.clearfix.mb15
+      %img{src: image_path('default-profile.jpg') }
+      .group
+        %h5.name= current_user.name.presence || current_user.email
+        %small.desig.text-uppercase=current_user.company.name
+    %ul.list-unstyled.clearfix.nav-list.mb15
+      %li{class: cp('/')}
+        = link_to :root do
+          %i.ion.ion-speedometer
+          %span.text> Dashboard
+      %li{class: cp('/projects')}
+        = link_to :projects do
+          %i.ion.ion-document
+          %span.text> Projects
+

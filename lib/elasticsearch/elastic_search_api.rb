@@ -8,21 +8,23 @@ class ElasticSearchApi
                                             port: ENV['INDIANASEARCH_ELASTICSEARCH_1_PORT_9200_TCP_PORT'])
     end
 
-    def search(namespace, resource_type, field, query)
-      # client = Elasticsearch::Client.new log: true
+    def info(namespace)
+      response = ElasticSearchApi.client.indices.get_mapping(index: namespace)
+      response.fetch(namespace).try(:fetch, 'mappings')
+    rescue
+      {}
+    end
 
-      response = ElasticSearchApi.client.search index: resource_type, type: namespace, body: {
-        'query' => {
-          'match' => {
-            field.to_s => {
-              'query' => query,
-              'operator' => 'or',
-              'fuzziness' => 10,
-              'type' => 'phrase_prefix'
-            }
-          }
-        }
-      }
+    def to_search_query(field, query)
+      if field.present?
+        { query: { match: { field.to_s => { query: query, operator: 'or', fuzziness: 10, type: 'phrase_prefix' } } } }
+      else
+        { query: { match: { _all: { query: query, fuzziness: 10, type: 'phrase_prefix' } } } }
+      end
+    end
+
+    def search(namespace, resource_type, field, query)
+      response = ElasticSearchApi.client.search type: namespace, index: resource_type, body: to_search_query(field, query)
       to_response(response)
     rescue StandardError => ex
       { success: false, message: ex }

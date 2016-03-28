@@ -16,6 +16,10 @@ class ProjectsController < ApplicationController
   def edit
   end
 
+  def search
+    render json: ElasticSearchApi.search(Project.first.namespace, '*', nil, params[:search])
+  end
+
   def create
     @project = current_user.company.projects.build(project_params)
 

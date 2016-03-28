@@ -1,0 +1,11 @@
+.row
+  .col-md-12
+    .panel.panel-default.mb20
+      .panel-heading> Your Data
+      .panel-body
+        #data-search
+          %input{type: 'search', placeholder: 'Enter your search', value: ''}
+          #results.results
+
+      .panel-footer
+        = link_to 'Back', projects_path, class: 'btn btn-default btn-xs'

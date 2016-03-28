@@ -1,0 +1,13 @@
+%header.site-head.fixedHeader#site-head
+  %ul.list-unstyled.left-elems
+    %li
+      %a.nav-trigger.ion.ion-drag#toggle-sidebar
+  %ul.list-unstyled.right-elems
+    %li.profile-drop.dropdown
+      %a#dropdownMenu1{'data-toggle':"dropdown", 'aria-haspopup':"true", 'aria-expanded':"true", href:""}
+        %img{src: image_path('default-profile.jpg') }
+      %ul.dropdown-menu.pull-right
+        %li
+          = link_to destroy_user_session_path, :method => :delete do
+            %span.ion.ion-power
+            Sair

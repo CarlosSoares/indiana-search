@@ -17,6 +17,7 @@ gem 'turbolinks'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # Authentication and user management
 gem 'devise'
+gem 'haml'
 
 gem 'rest-client'
 
@@ -26,7 +27,6 @@ gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'factory_girl_rails'
-  gem 'byebug'
   gem 'faker'
   gem 'rspec-rails'
   gem 'database_cleaner'
@@ -46,5 +46,4 @@ end
 # Front end assets
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
-  gem 'rails-assets-font-awesome'
 end

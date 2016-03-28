@@ -1,0 +1,37 @@
+.row
+  .col-md-12.col-sm-12
+    .panel.panel-default.mb20.panel-hovered.analytics
+      .panel-heading> Estatísticas
+      .panel-body
+        #site_statistics_content
+        #site_statistics.chart
+
+        :javascript
+          var serverData = #{current_user.company.to_graph.to_json};
+          var chartData = {};
+          serverData.forEach(function(date) {
+            if (!chartData[date.day]) {
+              chartData[date.day] = date.searches;
+            } else {
+              chartData[date.day] = chartData[date.day] + date.searches;
+            }
+          });
+          var data = $.map(chartData, function(key, value) {
+            return {day: value, searches: key};
+          });
+          $(document).ready(function() {
+            var m = Morris.Area({
+              element: 'site_statistics',
+              data: data,
+              xkey: 'day',
+              stacked: true,
+              hideHover: 'auto',
+              resize: true,
+              redraw: true,
+              ykeys: ['searches'],
+              labels: ['Searchs']
+            });
+            $(window).on("resize", function() {
+              m.redraw();
+            });
+          });

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :searches, only: [:index]
 
   resources :projects do
+    get 'search/:search', to: 'projects#search', on: :member
     resources :consumers
     resources :searches, only: [:index]
   end

@@ -1,0 +1,24 @@
+.panel.panel-lined.table-responsive.mb20
+  .panel-heading>Listing Consumers
+  .panel-body>
+    %table.table.no-footer
+      %thead
+        %tr
+          %td> Name
+          %td> Api Key
+          %td> Actions
+      %tbody
+        - if @consumers.empty?
+          %tr
+            %td.text-center{colspan: '3'}> Empty
+        - @consumers.each do |consumer|
+          %tr
+            %td= consumer.name
+            %td= consumer.token
+            %td
+              = link_to 'Show', project_consumer_path(@project, consumer), class: 'btn btn-default btn-xs mr5'
+              = link_to 'Edit', edit_project_consumer_path(@project, consumer), class: 'btn btn-default btn-xs mr5'
+              = link_to 'Destroy', project_consumer_path(@project, consumer), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs'
+
+  .panel-footer
+    = link_to 'New Consumer', new_project_consumer_path(@project), class: 'btn btn-success btn-xs'

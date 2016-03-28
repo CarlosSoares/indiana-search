@@ -1,0 +1,23 @@
+- content_for(:title) do
+  Listing Projects
+
+  = link_to 'New Project', new_project_path, class: "btn btn-success pull-right"
+
+- @projects.each_with_index do |project, index|
+  - if (index % 4) == 0
+    - if index == 0
+      = "<div class='row'>".html_safe
+    - else
+      = "</div><div class='row'>".html_safe
+  .col-md-3
+    .panel.panel-default.mb20
+      .panel-heading= project.name
+      .panel-body
+        .row.text-light
+          .col-sm-6> Total Searchs
+          .col-sm-6= project.searches.size
+      .panel-footer
+        = link_to 'Show', project, class: "btn btn-default btn-xs"
+        = link_to 'Consumers', project_consumers_path(project), class: "btn btn-success btn-xs"
+        = link_to 'Destroy', project, class: "btn btn-danger btn-xs", method: :delete, data: { confirm: 'Are you sure?' }
+= "</div>".html_safe

@@ -17,3 +17,20 @@
 //= require turbolinks
 //= require_tree .
 
+function onLoad() {
+  toggleSidebar(localStorage.getItem('sidebar') === "true");
+  $('#toggle-sidebar').on('click', function(e) {
+    e.preventDefault();
+    var current = localStorage.getItem('sidebar') === "true";
+    localStorage.setItem('sidebar', !current)
+    toggleSidebar(!current);
+  });
+
+  function toggleSidebar(show) {
+    var fn = show ? "removeClass" : "addClass";
+    $("header, aside, #content")[fn]("nav-expand");
+  }
+
+};
+$(document).ready(onLoad);
+$(document).on("page:load", onLoad);
