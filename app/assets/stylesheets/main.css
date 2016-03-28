@@ -3688,6 +3688,7 @@ fieldset[disabled] .btn-youtube.active {
   overflow: hidden;
   position: relative;
   background: #efefef;
+  min-height: 100%;
 }
 .main-container .content-container.fixedHeader .page {
   margin-top: 55px;
