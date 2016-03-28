@@ -9,7 +9,10 @@ function onLoadProject() {
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
       url: window.location.pathname + '/search/%QUERY.json',
-      wildcard: '%QUERY'
+      wildcard: '%QUERY',
+      filter: function (parsedResponse) {
+        return parsedResponse.results || [];
+      }
     }
   });
 

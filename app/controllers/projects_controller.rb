@@ -1,6 +1,6 @@
 # Projects controller
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :search]
 
   def index
     @projects = current_user.projects.all
@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
   end
 
   def search
-    render json: ElasticSearchApi.search(Project.first.namespace, '*', nil, params[:search])
+    render json: ElasticSearchApi.search(@project.namespace, '*', nil, params[:search])
   end
 
   def create
